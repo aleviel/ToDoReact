@@ -21,7 +21,7 @@ export default class AppPostsListItem extends Component {
 	}
 
 	render() {
-		const { label } = this.props;
+		const { label, deleteItem } = this.props;
 		const { important, done } = this.state;
 
 		let classNames = 'app-list-item d-flex justify-content-between';
@@ -34,17 +34,21 @@ export default class AppPostsListItem extends Component {
 
 		return (
 			<div className={classNames} >
-				<span className='app-list-item-label'>{label}</span>
+				<span
+					onClick={this.onDone}
+					className='app-list-item-label'>
+					{label}
+				</span>
 				<div className="d-flex justify-content-center align-items-center">
 					<button className='btn-star btn-sm'
 						onClick={this.onImportant}>
 						<i className='fa fa-star'></i>
 					</button>
-					<button className='btn-trash btn-sm'>
+					<button className='btn-trash btn-sm'
+						onClick={deleteItem}>
 						<i className='fas fa-trash'></i>
 					</button>
-					<button className='btn-done btn-sm'
-						onClick={this.onDone}>
+					<button className='btn-done btn-sm'					>
 						<i className="fas fa-check-circle"></i>
 					</button>
 				</div>
