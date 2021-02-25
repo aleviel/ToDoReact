@@ -17,7 +17,10 @@ export default class AppAddForm extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault()
-		this.props.addFunc(this.state.inputBody)
+		if (this.state.inputBody !== '') {
+			this.props.addFunc(this.state.inputBody)
+		}
+
 		this.setState({
 			inputBody: ''
 		})

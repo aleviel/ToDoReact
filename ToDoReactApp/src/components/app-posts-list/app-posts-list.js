@@ -4,7 +4,7 @@ import AppPostsListItem from '../app-posts-list-item';
 
 import './app-posts-list.css'
 
-export default function AppPostsList({ posts, delFunc }) {
+export default function AppPostsList({ posts, delFunc, toggleImpFunc, toggleDone }) {
 
 	const post = posts.map(item => {
 		const { id, ...items } = item;
@@ -12,7 +12,9 @@ export default function AppPostsList({ posts, delFunc }) {
 			<li key={id} className='list-group-item'>
 				<AppPostsListItem
 					{...items}
-					deleteItem={() => { delFunc(id) }} />
+					deleteItem={() => { delFunc(id) }}
+					toggleImportant={() => { toggleImpFunc(id) }}
+					toggleDone={() => { toggleDone(id) }} />
 			</li>
 		)
 	})
