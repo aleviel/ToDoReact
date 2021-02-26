@@ -51,7 +51,7 @@ export default class App extends Component {
 			({ data }) => {
 				const index = data.findIndex(item => item.id === id);
 				const oldItem = data[index];
-				const newItem = { ...oldItem, [selector]: !oldItem.[selector] };
+				const newItem = { ...oldItem, [selector]: !oldItem[selector] };
 				const newData = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
 				return {
 					data: newData
