@@ -46,26 +46,12 @@ export default class App extends Component {
 		)
 	}
 
-	onToggleImportant = (id) => {
-		this.setState(
-			({ data }) => {
-				const index = data.findIndex(item => item.id === id)
-				const oldItem = data[index];
-				const newItem = { ...oldItem, important: !oldItem.important };
-				const newData = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
-				return {
-					data: newData
-				}
-			}
-		)
-	}
-
-	onToggleDone = (id) => {
+	onToggleStatus = (id, selector) => {
 		this.setState(
 			({ data }) => {
 				const index = data.findIndex(item => item.id === id);
 				const oldItem = data[index];
-				const newItem = { ...oldItem, done: !oldItem.done };
+				const newItem = { ...oldItem, [selector]: !oldItem.[selector] };
 				const newData = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
 				return {
 					data: newData
@@ -93,8 +79,7 @@ export default class App extends Component {
 				<AppPostsList
 					posts={data}
 					delFunc={this.onDelete}
-					toggleImpFunc={this.onToggleImportant}
-					toggleDone={this.onToggleDone} />
+					toggleStatus={this.onToggleStatus} />
 				<AppAddForm
 					addFunc={this.onAdd} />
 			</div>
