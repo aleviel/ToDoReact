@@ -14,7 +14,8 @@ export default class App extends Component {
 			{ label: 'first', important: false, done: false, id: '0' },
 			{ label: 'second', important: true, done: false, id: '1' },
 			{ label: 'third', important: false, done: true, id: '2' }
-		]
+		],
+		term: ''
 	}
 
 	maxId = 3;
@@ -46,6 +47,19 @@ export default class App extends Component {
 		)
 	}
 
+	onSearchPosts = (text) => {
+		this.setState(
+			{ term: text }
+		)
+	}
+
+	searchPosts = (items, term) => {
+		if (term.length === 0) {
+			return items
+		}
+		return items.filter(item => item.label.indexOf(term) > -1)
+	}
+
 	onToggleStatus = (id, selector) => {
 		this.setState(
 			({ data }) => {
@@ -61,11 +75,11 @@ export default class App extends Component {
 	}
 
 	render() {
-		const { data } = this.state;
-
-		const allPosts = data.length;
-		const donePosts = data.filter(item => item.done).length;
-
+		const
+			{ data, term } = this.state,
+			allPosts = data.length,
+			donePosts = data.filter(item => item.done).length,
+			visiblePosts = this.searchPosts(data, term);
 		return (
 			<div className='app'>
 				<AppHeader
@@ -73,11 +87,13 @@ export default class App extends Component {
 					donePosts={donePosts}
 				/>
 				<div className='search-panel d-flex'>
-					<AppSearch />
+					<AppSearch
+						term={term}
+						searchFunc={this.onSearchPosts} />
 					<AppFilter />
 				</div>
 				<AppPostsList
-					posts={data}
+					posts={visiblePosts}
 					delFunc={this.onDelete}
 					toggleStatus={this.onToggleStatus} />
 				<AppAddForm
