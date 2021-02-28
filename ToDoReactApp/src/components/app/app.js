@@ -15,7 +15,8 @@ export default class App extends Component {
 			{ label: 'second', important: true, done: false, id: '1' },
 			{ label: 'third', important: false, done: true, id: '2' }
 		],
-		term: ''
+		term: '',
+		filter: 'all'
 	}
 
 	maxId = 3;
@@ -60,6 +61,19 @@ export default class App extends Component {
 		return items.filter(item => item.label.indexOf(term) > -1)
 	}
 
+	filterPosts = (items, filter) => {
+		if (filter === 'done') {
+			return (items.filter(item => item.done));
+		}
+		return items
+	}
+
+	onChangeFilter = (filter) => {
+		this.setState(
+			{ filter: filter }
+		)
+	}
+
 	onToggleStatus = (id, selector) => {
 		this.setState(
 			({ data }) => {
@@ -76,10 +90,10 @@ export default class App extends Component {
 
 	render() {
 		const
-			{ data, term } = this.state,
+			{ data, term, filter } = this.state,
 			allPosts = data.length,
 			donePosts = data.filter(item => item.done).length,
-			visiblePosts = this.searchPosts(data, term);
+			visiblePosts = this.filterPosts(this.searchPosts(data, term), filter);
 		return (
 			<div className='app'>
 				<AppHeader
@@ -90,7 +104,9 @@ export default class App extends Component {
 					<AppSearch
 						term={term}
 						searchFunc={this.onSearchPosts} />
-					<AppFilter />
+					<AppFilter
+						filterPost={this.onChangeFilter}
+						filter={this.state.filter} />
 				</div>
 				<AppPostsList
 					posts={visiblePosts}
